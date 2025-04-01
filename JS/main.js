@@ -76,38 +76,44 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
         return;
     }
     
-    const isMobile = window.innerWidth < 768;
-    
-    if (isMobile) {
-        sliderControl.style.width = '30px';
-        sliderControl.style.height = '30px';
-        sliderControl.style.marginLeft = '-15px';
-        sliderControl.style.marginTop = '-15px';
-        sliderDivider.style.width = '2px';
-    } else {
-        sliderControl.style.width = '40px';
-        sliderControl.style.height = '40px';
-        sliderControl.style.marginLeft = '-20px';
-        sliderControl.style.marginTop = '-20px';
-        sliderDivider.style.width = '3px';
-    }
-    
-    window.addEventListener('resize', function() {
-        const isMobile = window.innerWidth < 768;
-        if (isMobile) {
-            sliderControl.style.width = '30px';
-            sliderControl.style.height = '30px';
-            sliderControl.style.marginLeft = '-15px';
-            sliderControl.style.marginTop = '-15px';
-            sliderDivider.style.width = '2px';
-        } else {
-            sliderControl.style.width = '40px';
-            sliderControl.style.height = '40px';
-            sliderControl.style.marginLeft = '-20px';
-            sliderControl.style.marginTop = '-20px';
-            sliderDivider.style.width = '3px';
+    const sliderArrows = slider.querySelector('.slider-arrows');
+    if (sliderArrows) {
+        sliderArrows.style.position = 'absolute';
+        sliderArrows.style.top = '50%';
+        sliderArrows.style.left = '50%';
+        sliderArrows.style.transform = 'translate(-50%, -50%)';
+        sliderArrows.style.zIndex = '5';
+        sliderArrows.style.pointerEvents = 'none';
+        
+        const arrowLeft = sliderArrows.querySelector('.arrow-left');
+        const arrowRight = sliderArrows.querySelector('.arrow-right');
+        
+        if (arrowLeft) {
+            arrowLeft.style.position = 'absolute';
+            arrowLeft.style.left = '-20px';
+            arrowLeft.style.top = '50%';
+            arrowLeft.style.transform = 'translateY(-50%)';
+            arrowLeft.style.width = '20px';
+            arrowLeft.style.height = '20px';
+            arrowLeft.style.borderLeft = '3px solid white';
+            arrowLeft.style.borderBottom = '3px solid white';
+            arrowLeft.style.transform = 'translateY(-50%) rotate(45deg)';
+            arrowLeft.style.boxShadow = '0 0 3px rgba(0,0,0,0.5)';
         }
-    });
+        
+        if (arrowRight) {
+            arrowRight.style.position = 'absolute';
+            arrowRight.style.right = '-20px';
+            arrowRight.style.top = '50%';
+            arrowRight.style.transform = 'translateY(-50%)';
+            arrowRight.style.width = '20px';
+            arrowRight.style.height = '20px';
+            arrowRight.style.borderRight = '3px solid white';
+            arrowRight.style.borderTop = '3px solid white';
+            arrowRight.style.transform = 'translateY(-50%) rotate(45deg)';
+            arrowRight.style.boxShadow = '0 0 3px rgba(0,0,0,0.5)';
+        }
+    }
     
     let isDragging = false;
     
@@ -160,14 +166,15 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
         sliderControl.style.left = `${percentage}%`;
         sliderDivider.style.left = `${percentage}%`;
         
+        if (sliderArrows) {
+            sliderArrows.style.left = `${percentage}%`;
+        }
+        
         updateLabelPositions(percentage);
     }
     
     function updateLabelPositions(percentage) {
-        const isMobile = window.innerWidth < 768;
-        const mobileThreshold = isMobile ? 20 : 30;
-        
-        if (percentage < mobileThreshold) {
+        if (percentage < 30) {
             beforeLabel.style.opacity = '0';
             beforeLabel.style.transform = 'translateX(-10px)';
         } else {
@@ -175,24 +182,12 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
             beforeLabel.style.transform = 'translateX(0)';
         }
         
-        if (percentage > (100 - mobileThreshold)) {
+        if (percentage > 70) {
             afterLabel.style.opacity = '0';
             afterLabel.style.transform = 'translateX(10px)';
         } else {
             afterLabel.style.opacity = '1';
             afterLabel.style.transform = 'translateX(0)';
-        }
-        
-        if (isMobile) {
-            beforeLabel.style.fontSize = '14px';
-            afterLabel.style.fontSize = '14px';
-            beforeLabel.style.padding = '4px 8px';
-            afterLabel.style.padding = '4px 8px';
-        } else {
-            beforeLabel.style.fontSize = '16px';
-            afterLabel.style.fontSize = '16px';
-            beforeLabel.style.padding = '6px 12px';
-            afterLabel.style.padding = '6px 12px';
         }
     }
     
@@ -200,23 +195,11 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
     sliderControl.addEventListener('touchstart', startDragging);
     slider.addEventListener('click', handleSliderClick);
     
-    sliderControl.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24" height="24">
-            <path d="M15.75 19.5L8.25 12l7.5-7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M8.25 19.5L15.75 12l-7.5-7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
-    `;
-    
-    sliderControl.style.display = 'flex';
-    sliderControl.style.alignItems = 'center';
-    sliderControl.style.justifyContent = 'center';
-    sliderControl.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-    sliderControl.style.borderRadius = '50%';
-    sliderControl.style.cursor = 'pointer';
-    sliderControl.style.zIndex = '10';
-    sliderControl.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
-    
     updatePosition(0.5);
+    
+    window.addEventListener('resize', function() {
+        updatePosition(0.5);
+    });
 }
 
 function initializeLightbox() {
