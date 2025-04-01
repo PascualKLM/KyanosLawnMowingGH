@@ -20,10 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    const scrollThreshold = 500;
     const backToTopBtn = document.getElementById('back-to-top');
+    
     if (backToTopBtn) {
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 500) {
+            if (window.scrollY > scrollThreshold) {
                 backToTopBtn.style.opacity = '1';
                 backToTopBtn.style.visibility = 'visible';
             } else {
@@ -73,6 +75,39 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
     if (!slider || !clipContainer || !sliderControl || !sliderDivider || !beforeLabel || !afterLabel) {
         return;
     }
+    
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+        sliderControl.style.width = '30px';
+        sliderControl.style.height = '30px';
+        sliderControl.style.marginLeft = '-15px';
+        sliderControl.style.marginTop = '-15px';
+        sliderDivider.style.width = '2px';
+    } else {
+        sliderControl.style.width = '40px';
+        sliderControl.style.height = '40px';
+        sliderControl.style.marginLeft = '-20px';
+        sliderControl.style.marginTop = '-20px';
+        sliderDivider.style.width = '3px';
+    }
+    
+    window.addEventListener('resize', function() {
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+            sliderControl.style.width = '30px';
+            sliderControl.style.height = '30px';
+            sliderControl.style.marginLeft = '-15px';
+            sliderControl.style.marginTop = '-15px';
+            sliderDivider.style.width = '2px';
+        } else {
+            sliderControl.style.width = '40px';
+            sliderControl.style.height = '40px';
+            sliderControl.style.marginLeft = '-20px';
+            sliderControl.style.marginTop = '-20px';
+            sliderDivider.style.width = '3px';
+        }
+    });
     
     let isDragging = false;
     
@@ -129,7 +164,10 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
     }
     
     function updateLabelPositions(percentage) {
-        if (percentage < 30) {
+        const isMobile = window.innerWidth < 768;
+        const mobileThreshold = isMobile ? 20 : 30;
+        
+        if (percentage < mobileThreshold) {
             beforeLabel.style.opacity = '0';
             beforeLabel.style.transform = 'translateX(-10px)';
         } else {
@@ -137,18 +175,46 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
             beforeLabel.style.transform = 'translateX(0)';
         }
         
-        if (percentage > 70) {
+        if (percentage > (100 - mobileThreshold)) {
             afterLabel.style.opacity = '0';
             afterLabel.style.transform = 'translateX(10px)';
         } else {
             afterLabel.style.opacity = '1';
             afterLabel.style.transform = 'translateX(0)';
         }
+        
+        if (isMobile) {
+            beforeLabel.style.fontSize = '14px';
+            afterLabel.style.fontSize = '14px';
+            beforeLabel.style.padding = '4px 8px';
+            afterLabel.style.padding = '4px 8px';
+        } else {
+            beforeLabel.style.fontSize = '16px';
+            afterLabel.style.fontSize = '16px';
+            beforeLabel.style.padding = '6px 12px';
+            afterLabel.style.padding = '6px 12px';
+        }
     }
     
     sliderControl.addEventListener('mousedown', startDragging);
     sliderControl.addEventListener('touchstart', startDragging);
     slider.addEventListener('click', handleSliderClick);
+    
+    sliderControl.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24" height="24">
+            <path d="M15.75 19.5L8.25 12l7.5-7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M8.25 19.5L15.75 12l-7.5-7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    `;
+    
+    sliderControl.style.display = 'flex';
+    sliderControl.style.alignItems = 'center';
+    sliderControl.style.justifyContent = 'center';
+    sliderControl.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+    sliderControl.style.borderRadius = '50%';
+    sliderControl.style.cursor = 'pointer';
+    sliderControl.style.zIndex = '10';
+    sliderControl.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
     
     updatePosition(0.5);
 }
