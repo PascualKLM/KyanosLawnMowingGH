@@ -73,8 +73,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    width: 100px;
-    height: 40px;
+    width: 60px;
+    height: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -84,18 +84,18 @@
 .arrow-left {
     width: 0;
     height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 15px solid rgba(255, 255, 255, 0.8);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 10px solid rgba(255, 255, 255, 0.8);
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
 
 .arrow-right {
     width: 0;
     height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 15px solid rgba(255, 255, 255, 0.8);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid rgba(255, 255, 255, 0.8);
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
 
@@ -141,18 +141,18 @@
     }
     
     .slider-arrows {
-        width: 80px;
+        width: 50px;
     }
     
     .arrow-left {
-        border-top: 8px solid transparent;
-        border-bottom: 8px solid transparent;
-        border-right: 12px solid rgba(255, 255, 255, 0.8);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-right: 8px solid rgba(255, 255, 255, 0.8);
     }
     
     .arrow-right {
-        border-top: 8px solid transparent;
-        border-bottom: 8px solid transparent;
-        border-left: 12px solid rgba(255, 255, 255, 0.8);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 8px solid rgba(255, 255, 255, 0.8);
     }
 }
