@@ -1,0 +1,64 @@
+.contact-cta-box {
+    background: linear-gradient(135deg, #4A7C2A, #2E5115);
+    border-radius: 15px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    margin: 50px auto;
+}
+
+.cta-content {
+    padding: 40px;
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: white;
+    color: #4A7C2A;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.cta-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 768px) {
+    .cta-content {
+        padding: 30px 20px;
+    }
+    
+    .cta-content h2 {
+        font-size: 24px;
+    }
+    
+    .cta-content p {
+        font-size: 15px;
+    }
+    
+    .cta-button {
+        padding: 10px 25px;
+    }
+}

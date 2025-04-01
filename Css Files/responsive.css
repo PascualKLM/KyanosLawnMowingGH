@@ -1,0 +1,152 @@
+@media (max-width: 1200px) {
+    main {
+        padding: 0 30px;
+    }
+    
+    .service-item {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 992px) {
+    header {
+        padding: 15px 20px;
+    }
+    
+    .service-item {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-info {
+        order: 1;
+    }
+    
+    .service-image {
+        order: 2;
+    }
+    
+    .gallery-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .logo-container {
+        margin-bottom: 10px;
+    }
+    
+    header h1 {
+        margin-bottom: 15px;
+        font-size: 26px;
+    }
+    
+    .nav-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .nav-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .featured-image-container {
+        height: 300px;
+    }
+    
+    .featured-image-overlay h2 {
+        font-size: 28px;
+    }
+    
+    .featured-image-overlay p {
+        font-size: 16px;
+    }
+    
+    .section-title {
+        font-size: 24px;
+    }
+    
+    .service-info h2 {
+        font-size: 22px;
+    }
+    
+    .comparison-slider, .comparison-slider-fullwidth {
+        height: 300px;
+    }
+    
+    .contact-cta-box {
+        margin: 30px auto;
+    }
+    
+    .cta-content {
+        padding: 30px 20px;
+    }
+    
+    .cta-content h2 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 576px) {
+    main {
+        padding: 0 15px;
+    }
+    
+    .featured-image-container {
+        height: 250px;
+    }
+    
+    .featured-image-overlay h2 {
+        font-size: 24px;
+    }
+    
+    .featured-image-overlay p {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+    
+    .gallery-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-slider, .comparison-slider-fullwidth {
+        height: 250px;
+    }
+    
+    .service-info h2 {
+        font-size: 20px;
+    }
+    
+    .service-info p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 375px) {
+    .logo img {
+        height: 70px;
+    }
+    
+    header h1 {
+        font-size: 22px;
+    }
+    
+    .nav-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    .featured-image-container {
+        height: 200px;
+    }
+    
+    .comparison-slider, .comparison-slider-fullwidth {
+        height: 200px;
+    }
+}

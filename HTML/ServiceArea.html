@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Area | Kyanos Lawnmowing</title>
+    <link rel="stylesheet" href="enhanced_base.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="featured-image.css">
+    <link rel="stylesheet" href="New service-area.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="cta.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .service-area-intro {
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 35px;
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            border-bottom: 3px solid #896f51;
+        }
+        
+        .service-area-intro h2 {
+            color: #4A7C2A;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .service-area-intro h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #896f51;
+        }
+        
+        .service-area-intro p {
+            font-size: 17px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .service-radius-map {
+            margin: 0 auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .service-area-map-container {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            display: block;
+            text-align: center;
+        }
+        
+        .service-area-details {
+            padding: 35px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border-left: 4px solid #896f51;
+            margin: 40px auto 0;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .service-area-details h3 {
+            color: #4A7C2A;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .service-area-details h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: #896f51;
+        }
+        
+        .benefits-list {
+            margin: 0 auto;
+            max-width: 500px;
+            padding-left: 0;
+            list-style-position: inside;
+            text-align: center;
+        }
+        
+        .benefits-list li {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: left;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .benefits-list li::before {
+            content: "✓";
+            color: #4A7C2A;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+        
+        .contact-cta-box {
+            margin: 60px auto;
+            max-width: 900px;
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .cta-content {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .cta-content h2 {
+            font-size: 28px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .cta-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #896f51;
+        }
+        
+        .cta-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            background-color: #896f51;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: #3d6523;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        p {
+            text-align: center;
+        }
+        
+        .featured-image-overlay h2 {
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .featured-image-overlay h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #896f51;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="HomeV2.html" class="logo">
+                <img src="Images/KyanosLawnMowing.jpg" alt="Kyanos Lawn Mowing Logo">
+            </a>
+        </div>
+        <h1>Service Area</h1>
+        <div class="nav-container">
+            <div class="nav-buttons">
+                <a href="HomeV2.html" class="nav-button">Services</a>
+                <a href="ServiceArea.html" class="nav-button">Service Area</a>
+                <a href="Contact.html" class="nav-button">Contact</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="featured-image-container">
+        <img src="Images/3-15-2025 (3 of 9).jpg" alt="Featured Lawn Care Work" class="featured-image">
+        <div class="featured-image-overlay">
+            <h2>Our Service Coverage</h2>
+            <p>Professional lawn care services throughout Lake Worth Beach and surrounding areas</p>
+        </div>
+    </div>
+    
+    <main>
+        <section class="service-area-intro">
+            <h2>Service Area</h2>
+            <p>At Kyanos Lawnmowing, we provide top-quality lawn care services within a 25-mile radius of Lake Worth Beach, Florida. Our focused service area allows us to deliver reliable, and consistent service with faster response times and exceptional quality.</p>
+        </section>
+        
+        <section class="service-area-map-container">
+            <div class="service-radius-map">
+                <div class="map-grid">
+                    <div class="grid-line horizontal"></div>
+                    <div class="grid-line horizontal"></div>
+                    <div class="grid-line horizontal"></div>
+                    <div class="grid-line vertical"></div>
+                    <div class="grid-line vertical"></div>
+                    <div class="grid-line vertical"></div>
+                </div>
+                
+                <div class="radius-circle"></div>
+                
+                <div class="center-marker">
+                    <div class="marker-dot"></div>
+                    <div class="marker-pulse"></div>
+                </div>
+                
+                <div class="compass-rose">
+                    <div class="compass-n">N</div>
+                    <div class="compass-e">E</div>
+                    <div class="compass-s">S</div>
+                    <div class="compass-w">W</div>
+                </div>
+                
+                <div class="location-label">Lake Worth Beach</div>
+                <div class="radius-label">25 Mile Radius</div>
+            </div>
+            
+            <div class="service-area-details">
+                <h3>Why We Focus on This Area</h3>
+                <ul class="benefits-list">
+                    <li>Faster response times for service requests</li>
+                    <li>Lower travel costs passed as savings to you</li>
+                    <li>More reliable scheduling and punctuality</li>
+                    <li>Higher quality results through specialized local knowledge</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="contact-cta-box">
+            <div class="cta-content">
+                <h2>Ready to Book Your Lawn Service?</h2>
+                <p>Contact us today to schedule your lawn care service or to get a free quote for your property.</p>
+                <a href="Contact.Html" class="cta-button">Contact Us</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+    </footer>
+    
+    <script src="main.js"></script>
+</body>
+</html>

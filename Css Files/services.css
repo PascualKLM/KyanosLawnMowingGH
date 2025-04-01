@@ -1,0 +1,88 @@
+.service-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.service-info {
+    padding-right: 20px;
+}
+
+.service-info h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #4A7C2A;
+}
+
+.service-info p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.service-info ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.service-info li {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.service-info li::before {
+    content: "✓";
+    color: #4A7C2A;
+    position: absolute;
+    left: -20px;
+}
+
+.service-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.service-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.service-image:hover img {
+    transform: scale(1.05);
+}
+
+.service-cta {
+    margin-top: 25px;
+}
+
+.service-cta .btn {
+    display: inline-block;
+    padding: 12px 25px;
+}
+
+@media (max-width: 992px) {
+    .service-item {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .service-info {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-info h2 {
+        font-size: 24px;
+    }
+    
+    .service-info p {
+        font-size: 15px;
+    }
+}
