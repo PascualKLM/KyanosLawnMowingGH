@@ -41,56 +41,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    const mainSlider = document.getElementById('comparison-slider');
-    if (mainSlider) {
-        initializeSlider(
-            'comparison-slider',
-            'clip-container',
-            'slider-control',
-            'slider-divider',
-            'before-label',
-            'after-label'
-        );
+    if (document.getElementById('comparison-slider')) {
+        initializeSlider('comparison-slider', 'clip-container', 'slider-control', 'slider-divider', 'before-label', 'after-label');
     }
     
-    const slider1 = document.getElementById('comparison-slider-1');
-    if (slider1) {
-        initializeSlider(
-            'comparison-slider-1', 
-            'clip-container-1', 
-            'slider-control-1', 
-            'slider-divider-1', 
-            'before-label-1', 
-            'after-label-1'
-        );
+    if (document.getElementById('comparison-slider-1')) {
+        initializeSlider('comparison-slider-1', 'clip-container-1', 'slider-control-1', 'slider-divider-1', 'before-label-1', 'after-label-1');
     }
     
-    const slider2 = document.getElementById('comparison-slider-2');
-    if (slider2) {
-        initializeSlider(
-            'comparison-slider-2', 
-            'clip-container-2', 
-            'slider-control-2', 
-            'slider-divider-2', 
-            'before-label-2', 
-            'after-label-2'
-        );
+    if (document.getElementById('comparison-slider-2')) {
+        initializeSlider('comparison-slider-2', 'clip-container-2', 'slider-control-2', 'slider-divider-2', 'before-label-2', 'after-label-2');
     }
     
-    const slider3 = document.getElementById('comparison-slider-3');
-    if (slider3) {
-        initializeSlider(
-            'comparison-slider-3', 
-            'clip-container-3', 
-            'slider-control-3', 
-            'slider-divider-3', 
-            'before-label-3', 
-            'after-label-3'
-        );
+    if (document.getElementById('comparison-slider-3')) {
+        initializeSlider('comparison-slider-3', 'clip-container-3', 'slider-control-3', 'slider-divider-3', 'before-label-3', 'after-label-3');
     }
     
-    const lightbox = document.getElementById('image-lightbox');
-    if (lightbox) {
+    if (document.getElementById('image-lightbox')) {
         initializeLightbox();
     }
 });
@@ -126,9 +93,9 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
         document.removeEventListener('touchend', endDragging);
     }
     
-    function handleMove(clientX) {
+    function handleMove(e) {
         if (isDragging) {
-            updatePositionFromClientX(clientX);
+            updatePositionFromClientX(e.clientX);
         }
     }
     
@@ -187,31 +154,32 @@ function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId,
 }
 
 function initializeLightbox() {
+    const galleryImages = document.querySelectorAll('.gallery-item img');
     const lightbox = document.getElementById('image-lightbox');
-    const lightboxImg = document.getElementById('lightbox-image');
+    
+    if (!lightbox) return;
+    
+    const lightboxImage = document.getElementById('lightbox-image');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const lightboxClose = document.querySelector('.lightbox-close');
-    const galleryImages = document.querySelectorAll('.gallery-item img');
     
     function openLightbox(imgElement) {
+        lightboxImage.src = imgElement.src;
+        lightboxCaption.textContent = imgElement.alt;
         lightbox.style.display = 'block';
-        lightboxImg.src = imgElement.src;
         
-        const galleryItem = imgElement.closest('.gallery-item');
-        if (galleryItem) {
-            const caption = galleryItem.querySelector('.gallery-caption');
-            if (caption) {
-                lightboxCaption.textContent = caption.textContent;
-            } else {
-                lightboxCaption.textContent = '';
-            }
-        } else {
-            lightboxCaption.textContent = '';
-        }
+        document.addEventListener('keydown', handleEscKey);
     }
     
     function closeLightbox() {
         lightbox.style.display = 'none';
+        document.removeEventListener('keydown', handleEscKey);
+    }
+    
+    function handleEscKey(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
     }
     
     function showNextImage() {
@@ -219,7 +187,7 @@ function initializeLightbox() {
         
         let currentIndex = -1;
         galleryImages.forEach((img, index) => {
-            if (img.src === lightboxImg.src) {
+            if (img.src === lightboxImage.src) {
                 currentIndex = index;
             }
         });
@@ -235,7 +203,7 @@ function initializeLightbox() {
         
         let currentIndex = -1;
         galleryImages.forEach((img, index) => {
-            if (img.src === lightboxImg.src) {
+            if (img.src === lightboxImage.src) {
                 currentIndex = index;
             }
         });
@@ -246,33 +214,29 @@ function initializeLightbox() {
         }
     }
     
-    if (galleryImages.length > 0) {
-        galleryImages.forEach(function(img) {
-            img.addEventListener('click', function() {
-                openLightbox(this);
-            });
+    galleryImages.forEach(img => {
+        img.addEventListener('click', function() {
+            openLightbox(this);
         });
-    }
+    });
     
     if (lightboxClose) {
-        lightboxClose.addEventListener('click', function() {
-            closeLightbox();
-        });
+        lightboxClose.addEventListener('click', closeLightbox);
     }
     
-    lightbox.addEventListener('click', function(event) {
-        if (event.target === lightbox) {
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
             closeLightbox();
         }
     });
     
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function(e) {
         if (lightbox.style.display === 'block') {
-            if (event.key === 'Escape') {
+            if (e.key === 'Escape') {
                 closeLightbox();
-            } else if (event.key === 'ArrowRight') {
+            } else if (e.key === 'ArrowRight') {
                 showNextImage();
-            } else if (event.key === 'ArrowLeft') {
+            } else if (e.key === 'ArrowLeft') {
                 showPrevImage();
             }
         }
