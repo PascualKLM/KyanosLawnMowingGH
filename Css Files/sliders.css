@@ -1,4 +1,5 @@
-.comparison-slider {
+.comparison-slider, .comparison-slider-fullwidth {
+    --slider-position: 50%;
     position: relative;
     width: 100%;
     height: 400px;
@@ -6,20 +7,21 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: col-resize;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .comparison-slider-fullwidth {
-    position: relative;
-    width: 100%;
     height: 500px;
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-bottom: 30px;
-    cursor: col-resize;
 }
 
-.before-image, .after-image {
+.comparison-slider.is-dragging, .comparison-slider-fullwidth.is-dragging {
+    cursor: grabbing;
+}
+
+.before-image, .after-image, .clip-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -32,164 +34,106 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none;
 }
 
+/* Reveal the full-sized before layer without changing its image crop. */
 .clip-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
+    clip-path: inset(0 calc(100% - var(--slider-position)) 0 0);
     overflow: hidden;
+}
+
+/* Hover zoom would change the comparison framing while moving the divider. */
+.service-image:hover .before-image img,
+.service-image:hover .after-image img {
+    transform: none;
 }
 
 .slider-control {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    left: var(--slider-position);
+    transform: translate(-50%, -50%);
     z-index: 20;
-    width: 40px;
-    height: 40px;
-    background-color: rgba(255, 255, 255, 0.8);
+    width: 44px;
+    height: 44px;
+    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 50%;
-    cursor: pointer;
+    cursor: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    transform: translateX(-45%) translateY(-50%);
 }
 
-.slider-handle {
+.slider-control:focus-visible {
+    outline: 3px solid #4A7C2A;
+    outline-offset: -5px;
+}
+
+.slider-handle, .slider-arrows {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.slider-arrows {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    width: 60px;
-    height: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     pointer-events: none;
 }
 
-.arrow-left {
-    width: 0;
-    height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 8px solid rgba(255, 255, 255, 0.8);
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+.slider-arrows {
+    gap: 8px;
 }
 
-.arrow-right {
+.arrow-left, .arrow-right {
     width: 0;
     height: 0;
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-left: 8px solid rgba(255, 255, 255, 0.8);
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
+
+.arrow-left { border-right: 8px solid #333; }
+.arrow-right { border-left: 8px solid #333; }
 
 .slider-divider {
     position: absolute;
     top: 0;
     bottom: 0;
+    left: var(--slider-position);
     width: 4px;
+    transform: translateX(-50%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 10;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
 }
 
 .comparison-label {
     position: absolute;
+    bottom: 15px;
     padding: 8px 16px;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     border-radius: 5px;
+    font-size: 18px;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
     z-index: 15;
+    pointer-events: none;
 }
 
-.before-label {
-    left: 20px;
-    bottom: 15px;
-}
-
-.after-label {
-    right: 20px;
-    bottom: 15px;
-}
+.before-label { left: 20px; }
+.after-label { right: 20px; }
 
 @media (max-width: 768px) {
-    .comparison-slider, .comparison-slider-fullwidth {
-        height: 300px;
-    }
-    
-    .slider-arrows {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: none;
-    }
-    
-    .arrow-left, .arrow-right {
-        position: absolute;
-        width: 0;
-        height: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-    }
-    
-    .arrow-left {
-        border-top: 6px solid transparent;
-        border-bottom: 6px solid transparent;
-        border-right: 9px solid white;
-        left: 10px;
-    }
-    
-    .arrow-right {
-        border-top: 6px solid transparent;
-        border-bottom: 6px solid transparent;
-        border-left: 9px solid white;
-        right: 10px;
-    }
-    
+    .comparison-slider, .comparison-slider-fullwidth { height: 300px; }
     .comparison-label {
-        position: absolute;
-        bottom: 15px;
-        color: white;
-        background-color: rgba(0, 0, 0, 0.6);
         padding: 5px 12px;
-        border-radius: 4px;
-        font-weight: bold;
-        z-index: 3;
         font-size: 14px;
-        transition: transform 0.3s ease, opacity 0.3s ease, padding 0.3s ease, font-size 0.3s ease, bottom 0.3s ease;
-        opacity: 1;
     }
-    
-    .before-label {
-        left: 15px;
-    }
-    
-    .after-label {
-        right: 15px;
-    }
+    .before-label { left: 15px; }
+    .after-label { right: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .comparison-label { transition: none; }
 }

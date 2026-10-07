@@ -85,363 +85,187 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    const formElements = document.querySelectorAll('.contact-form');
-    
-    if (formElements.length > 0) {
-        formElements.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                let valid = true;
-                const requiredFields = form.querySelectorAll('[required]');
-                
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        valid = false;
-                        field.classList.add('error');
-                    } else {
-                        field.classList.remove('error');
-                    }
-                });
-                
-                if (valid) {
-                    const submitButton = form.querySelector('button[type="submit"]');
-                    if (submitButton) {
-                        submitButton.disabled = true;
-                        submitButton.textContent = 'Sending...';
-                    }
-                    
-                    const formData = new FormData(form);
-                    const formMessage = form.querySelector('.form-message');
-                    
-                    if (formMessage) {
-                        formMessage.textContent = 'Thank you! Your message has been sent successfully.';
-                        formMessage.style.display = 'block';
-                        formMessage.classList.add('success');
-                    }
-                    
-                    form.reset();
-                    
-                    if (submitButton) {
-                        setTimeout(() => {
-                            submitButton.disabled = false;
-                            submitButton.textContent = 'Send Message';
-                        }, 3000);
-                    }
-                }
-            });
-        });
-    }
-    
-    try {
-        const mainSlider = document.getElementById('comparison-slider');
-        if (mainSlider) {
-            initializeSlider(
-                'comparison-slider',
-                'clip-container',
-                'slider-control',
-                'slider-divider',
-                'before-label',
-                'after-label'
-            );
-        }
-        
-        const slider1 = document.getElementById('comparison-slider-1');
-        if (slider1) {
-            initializeSlider(
-                'comparison-slider-1', 
-                'clip-container-1', 
-                'slider-control-1', 
-                'slider-divider-1', 
-                'before-label-1', 
-                'after-label-1'
-            );
-        }
-        
-        const slider2 = document.getElementById('comparison-slider-2');
-        if (slider2) {
-            initializeSlider(
-                'comparison-slider-2', 
-                'clip-container-2', 
-                'slider-control-2', 
-                'slider-divider-2', 
-                'before-label-2', 
-                'after-label-2'
-            );
-        }
-        
-        const slider3 = document.getElementById('comparison-slider-3');
-        if (slider3) {
-            initializeSlider(
-                'comparison-slider-3', 
-                'clip-container-3', 
-                'slider-control-3', 
-                'slider-divider-3', 
-                'before-label-3', 
-                'after-label-3'
-            );
-        }
-    } catch (error) {
-        console.error("Error initializing sliders:", error);
-    }
-    
-    try {
-        const lightbox = document.getElementById('image-lightbox');
-        if (lightbox) {
-            const lightboxImg = document.getElementById('lightbox-image');
-            const lightboxCaption = document.getElementById('lightbox-caption');
-            const lightboxClose = document.querySelector('.lightbox-close');
-            const galleryImages = document.querySelectorAll('.gallery-item img');
-            
-            if (galleryImages.length > 0) {
-                galleryImages.forEach(function(img) {
-                    img.addEventListener('click', function() {
-                        openLightbox(this);
-                    });
-                });
-            }
-            
-            if (lightboxClose) {
-                lightboxClose.addEventListener('click', function() {
-                    closeLightbox();
-                });
-            }
-            
-            lightbox.addEventListener('click', function(event) {
-                if (event.target === lightbox) {
-                    closeLightbox();
-                }
-            });
-            
-            document.addEventListener('keydown', function(event) {
-                if (lightbox.style.display === 'block') {
-                    if (event.key === 'Escape') {
-                        closeLightbox();
-                    } else if (event.key === 'ArrowRight') {
-                        showNextImage();
-                    } else if (event.key === 'ArrowLeft') {
-                        showPrevImage();
-                    }
-                }
-            });
-            
-            let touchstartX = 0;
-            let touchendX = 0;
-            
-            lightbox.addEventListener('touchstart', e => {
-                touchstartX = e.changedTouches[0].screenX;
-            });
-            
-            lightbox.addEventListener('touchend', e => {
-                touchendX = e.changedTouches[0].screenX;
-                
-                if (touchendX < touchstartX - 50) {
-                    showNextImage();
-                }
-                
-                if (touchendX > touchstartX + 50) {
-                    showPrevImage();
-                }
-            });
-        }
-    } catch (error) {
-        console.error("Error initializing lightbox:", error);
-    }
+    // The contact form uses its native action/method and browser validation.
+    // Do not prevent submission or show success before Formspree responds.
+
+    document.querySelectorAll('.comparison-slider, .comparison-slider-fullwidth')
+        .forEach(initializeSlider);
+
+    initializeLightbox();
 });
 
-function initializeSlider(sliderId, clipId, controlId, dividerId, beforeLabelId, afterLabelId) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
-    
-    const clipContainer = document.getElementById(clipId);
-    const sliderControl = document.getElementById(controlId);
-    const sliderDivider = document.getElementById(dividerId);
-    const beforeLabel = document.getElementById(beforeLabelId);
-    const afterLabel = document.getElementById(afterLabelId);
-    
-    if (!clipContainer || !sliderControl || !sliderDivider || !beforeLabel || !afterLabel) return;
-    
-    let isDragging = false;
-    
-    updatePosition(50);
-    
-    sliderControl.addEventListener('mousedown', function(e) {
-        startDragging(e);
-        e.preventDefault();
-    });
-    
-    sliderControl.addEventListener('touchstart', function(e) {
-        startDragging(e);
-        e.preventDefault(); // Prevent default touch behavior
-    }, { passive: false });
-    
-    document.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        handleMove(e.clientX);
-    });
-    
-    document.addEventListener('touchmove', function(e) {
-        if (!isDragging || !e.touches[0]) return;
-        handleMove(e.touches[0].clientX);
-        e.preventDefault(); // Prevent scrolling when dragging
-    }, { passive: false });
-    
-    document.addEventListener('mouseup', function() {
-        endDragging();
-    });
-    
-    document.addEventListener('touchend', function() {
-        endDragging();
-    });
-    
-    slider.addEventListener('click', function(e) {
-        if (e.target === sliderControl) return;
-        handleSliderClick(e);
-    });
-    
-    function startDragging(e) {
-        isDragging = true;
-        slider.style.cursor = 'grabbing';
+function initializeSlider(slider) {
+    const control = slider.querySelector('.slider-control');
+    const beforeLabel = slider.querySelector('.before-label');
+    const afterLabel = slider.querySelector('.after-label');
+    if (!control || !beforeLabel || !afterLabel) return;
+
+    let position = 50;
+    let activePointerId = null;
+
+    function updatePosition(nextPosition) {
+        position = Math.round(Math.max(0, Math.min(100, nextPosition)) * 10) / 10;
+        // Both images stay full size; CSS clips the before layer without resizing it.
+        slider.style.setProperty('--slider-position', position + '%');
+        control.setAttribute('aria-valuenow', String(position));
+        control.setAttribute('aria-valuetext',
+            `${Math.round(position)}% before, ${100 - Math.round(position)}% after`);
+
+        const beforeVisibility = Math.min(1, position / 25);
+        const afterVisibility = Math.min(1, (100 - position) / 25);
+        beforeLabel.style.opacity = String(beforeVisibility);
+        beforeLabel.style.transform = `translateX(-${(1 - beforeVisibility) * 100}%)`;
+        afterLabel.style.opacity = String(afterVisibility);
+        afterLabel.style.transform = `translateX(${(1 - afterVisibility) * 100}%)`;
     }
-    
-    function endDragging() {
-        isDragging = false;
-        slider.style.cursor = 'col-resize';
-    }
-    
-    function handleMove(clientX) {
-        updatePositionFromClientX(clientX);
-    }
-    
-    function handleSliderClick(e) {
-        updatePositionFromClientX(e.clientX);
-    }
-    
-    function updatePositionFromClientX(clientX) {
+
+    function updateFromPointer(event) {
         const rect = slider.getBoundingClientRect();
-        const position = (clientX - rect.left) / rect.width * 100;
-        updatePosition(position);
+        if (rect.width > 0) updatePosition((event.clientX - rect.left) / rect.width * 100);
     }
-    
-    function updatePosition(position) {
-        position = Math.max(0, Math.min(100, position));
-        
-        clipContainer.style.width = position + '%';
-        sliderControl.style.left = position + '%';
-        sliderDivider.style.left = position + '%';
-        
-        updateLabelPositions(position);
-    }
-    
-    function updateLabelPositions(position) {
-        beforeLabel.style.fontSize = '18px';
-        beforeLabel.style.padding = '8px 16px';
-        beforeLabel.style.bottom = '15px';
-        beforeLabel.style.transform = 'translateX(0)';
-        beforeLabel.style.opacity = '1';
-        
-        afterLabel.style.fontSize = '18px';
-        afterLabel.style.padding = '8px 16px';
-        afterLabel.style.bottom = '15px';
-        afterLabel.style.transform = 'translateX(0)';
-        afterLabel.style.opacity = '1';
-        
-        const moveThreshold = 25;
-        
-        if (position < moveThreshold) {
-            const disappearFactor = 1 - (position / moveThreshold);
-            beforeLabel.style.transform = `translateX(-${disappearFactor * 200}%)`;
-            beforeLabel.style.opacity = 1 - disappearFactor;
-        } else if (position > 50) {
-            const enhancement = (position - 50) / 50;
-            if (enhancement > 0.2) {
-                beforeLabel.style.fontSize = `${18 + (enhancement * 4)}px`;
-                beforeLabel.style.padding = `${8 + (enhancement * 5)}px ${16 + (enhancement * 8)}px`;
-                beforeLabel.style.bottom = `${15 + (enhancement * 5)}px`;
-            }
-        }
-        
-        if (position > (100 - moveThreshold)) {
-            const disappearFactor = (position - (100 - moveThreshold)) / moveThreshold;
-            afterLabel.style.transform = `translateX(${disappearFactor * 200}%)`;
-            afterLabel.style.opacity = 1 - disappearFactor;
-        } else if (position < 50) {
-            const enhancement = (50 - position) / 50;
-            if (enhancement > 0.2) {
-                afterLabel.style.fontSize = `${18 + (enhancement * 4)}px`;
-                afterLabel.style.padding = `${8 + (enhancement * 5)}px ${16 + (enhancement * 8)}px`;
-                afterLabel.style.bottom = `${15 + (enhancement * 5)}px`;
-            }
+
+    function finishDragging(event) {
+        if (event.pointerId !== activePointerId) return;
+        activePointerId = null;
+        slider.classList.remove('is-dragging');
+        if (slider.hasPointerCapture(event.pointerId)) {
+            slider.releasePointerCapture(event.pointerId);
         }
     }
+
+    slider.addEventListener('pointerdown', function(event) {
+        if (!event.isPrimary || event.button !== 0) return;
+        activePointerId = event.pointerId;
+        slider.setPointerCapture(event.pointerId);
+        slider.classList.add('is-dragging');
+        control.focus({ preventScroll: true });
+        updateFromPointer(event);
+        if (event.pointerType === 'mouse') event.preventDefault();
+    });
+
+    slider.addEventListener('pointermove', function(event) {
+        if (event.pointerId === activePointerId) updateFromPointer(event);
+    });
+
+    slider.addEventListener('pointerup', finishDragging);
+    slider.addEventListener('pointercancel', finishDragging);
+    slider.addEventListener('lostpointercapture', finishDragging);
+
+    control.addEventListener('keydown', function(event) {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        const step = event.shiftKey ? 10 : 1;
+        let nextPosition;
+        switch (event.key) {
+            case 'ArrowLeft':
+            case 'ArrowDown': nextPosition = position - step; break;
+            case 'ArrowRight':
+            case 'ArrowUp': nextPosition = position + step; break;
+            case 'PageDown': nextPosition = position - 10; break;
+            case 'PageUp': nextPosition = position + 10; break;
+            case 'Home': nextPosition = 0; break;
+            case 'End': nextPosition = 100; break;
+            default: return;
+        }
+        event.preventDefault();
+        updatePosition(nextPosition);
+    });
+
+    updatePosition(position);
 }
 
-function openLightbox(imgElement) {
-    const lightbox = document.getElementById('image-lightbox');
-    const lightboxImg = document.getElementById('lightbox-image');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    
-    if (!lightbox || !lightboxImg || !lightboxCaption) return;
-    
-    lightbox.style.display = 'block';
-    
-    lightboxImg.src = imgElement.src;
-    const galleryItem = imgElement.closest('.gallery-item');
-    if (galleryItem) {
-        const caption = galleryItem.querySelector('.gallery-caption');
-        if (caption) {
-            lightboxCaption.textContent = caption.textContent;
-        } else {
-            lightboxCaption.textContent = '';
-        }
-    } else {
-        lightboxCaption.textContent = '';
-    }
-}
-
-function closeLightbox() {
+function initializeLightbox() {
     const lightbox = document.getElementById('image-lightbox');
     if (!lightbox) return;
-    
-    lightbox.style.display = 'none';
-}
 
-function showNextImage() {
-    const lightboxImg = document.getElementById('lightbox-image');
-    if (!lightboxImg) return;
-    
-    const galleryImages = document.querySelectorAll('.gallery-item img');
-    if (galleryImages.length === 0) return;
-    
-    let currentIndex = -1;
-    galleryImages.forEach((img, index) => {
-        if (img.src === lightboxImg.src) {
-            currentIndex = index;
-        }
-    });
-    
-    if (currentIndex >= 0) {
-        const nextIndex = (currentIndex + 1) % galleryImages.length;
-        openLightbox(galleryImages[nextIndex]);
-    }
-}
+    const image = document.getElementById('lightbox-image');
+    const caption = document.getElementById('lightbox-caption');
+    const closeButton = lightbox.querySelector('.lightbox-close');
+    const previousButton = lightbox.querySelector('.lightbox-previous');
+    const nextButton = lightbox.querySelector('.lightbox-next');
+    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    if (!image || !caption || !closeButton || galleryItems.length === 0) return;
 
-function showPrevImage() {
-    const lightboxImg = document.getElementById('lightbox-image');
-    if (!lightboxImg) return;
-    
-    const galleryImages = document.querySelectorAll('.gallery-item img');
-    if (galleryImages.length === 0) return;
-    
-    let currentIndex = -1;
-    galleryImages.forEach((img, index) => {
-        if (img.src === lightboxImg.src) {
-            currentIndex = index;
-        }
-    });
-    
-    if (currentIndex >= 0) {
-        const prevIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-        openLightbox(galleryImages[prevIndex]);
+    let currentIndex = 0;
+    let returnFocus = null;
+    let touchStart = null;
+
+    function showImage(index) {
+        currentIndex = (index + galleryItems.length) % galleryItems.length;
+        const item = galleryItems[currentIndex];
+        const thumbnail = item.querySelector('img');
+        const description = item.querySelector('.gallery-caption');
+        if (!thumbnail) return;
+        image.src = thumbnail.currentSrc || thumbnail.src;
+        image.alt = thumbnail.alt;
+        caption.textContent = description ? description.textContent : thumbnail.alt;
     }
+
+    function openLightbox(index, trigger) {
+        showImage(index);
+        if (lightbox.open) return;
+        returnFocus = trigger;
+        // Native modal dialogs keep the background inert and contain keyboard focus.
+        lightbox.showModal();
+        document.body.classList.add('lightbox-open');
+        closeButton.focus({ preventScroll: true });
+    }
+
+    galleryItems.forEach(function(item, index) {
+        item.addEventListener('click', function() {
+            openLightbox(index, item);
+        });
+    });
+
+    closeButton.addEventListener('click', function() {
+        lightbox.close();
+    });
+
+    if (previousButton) previousButton.addEventListener('click', function() {
+        showImage(currentIndex - 1);
+    });
+    if (nextButton) nextButton.addEventListener('click', function() {
+        showImage(currentIndex + 1);
+    });
+
+    lightbox.addEventListener('click', function(event) {
+        if (event.target === lightbox) lightbox.close();
+    });
+
+    lightbox.addEventListener('keydown', function(event) {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            showImage(currentIndex + 1);
+        } else if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            showImage(currentIndex - 1);
+        }
+        // Escape is handled by the dialog's native cancel behavior.
+    });
+
+    lightbox.addEventListener('touchstart', function(event) {
+        const touch = event.touches[0];
+        touchStart = event.touches.length === 1 ? { x: touch.clientX, y: touch.clientY } : null;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', function(event) {
+        const touch = event.changedTouches[0];
+        if (!touchStart || !touch) return;
+        const dx = touch.clientX - touchStart.x;
+        const dy = touch.clientY - touchStart.y;
+        touchStart = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+            showImage(currentIndex + (dx < 0 ? 1 : -1));
+        }
+    }, { passive: true });
+
+    lightbox.addEventListener('touchcancel', function() {
+        touchStart = null;
+    }, { passive: true });
+
+    lightbox.addEventListener('close', function() {
+        document.body.classList.remove('lightbox-open');
+        touchStart = null;
+        if (returnFocus && returnFocus.isConnected) returnFocus.focus({ preventScroll: true });
+    });
 }

@@ -57,7 +57,7 @@
     }
     
     .featured-image-container {
-        height: 300px;
+        min-height: 300px;
     }
     
     .featured-image-overlay h2 {
@@ -99,7 +99,7 @@
     }
     
     .featured-image-container {
-        height: 250px;
+        min-height: 250px;
     }
     
     .featured-image-overlay h2 {
@@ -143,10 +143,10 @@
     }
     
     .featured-image-container {
-        height: 200px;
+        min-height: 200px;
     }
     
     .comparison-slider, .comparison-slider-fullwidth {
         height: 200px;
     }
-}
+}
