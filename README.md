@@ -8,8 +8,9 @@ Website for Kyanos Lawn Mowing (kyanoslawnmowing.com), served by GitHub Pages fr
 - `ServiceArea.html`: Service area
 - `Contact.Html`: Contact info and Formspree contact form
 - `Css Files/`: stylesheets
+- `sitemap.xml`, `robots.txt`, favicons: search engine and browser files
 - `JS/main.js`: before/after sliders, gallery lightbox
 - `Images/`: photos and logo
 - `CNAME`: custom domain
 
-The `HTML/` folder holds older copies of the pages and is not served.
+Images are WebP, resized for the web. Original full-size photos are in the git history (before commit 5f924bd).

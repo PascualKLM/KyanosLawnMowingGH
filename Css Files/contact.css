@@ -99,19 +99,6 @@
     box-shadow: none;
 }
 
-.contact-form .error {
-    border-color: #e74c3c;
-    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
-}
-
-.map-container {
-    margin-top: 40px;
-    height: 400px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
 @media (max-width: 768px) {
     .contact-info, .contact-form {
         padding: 30px 20px;
@@ -129,9 +116,6 @@
         padding: 10px;
     }
     
-    .map-container {
-        height: 300px;
-    }
 }
 
 .contact-field {
